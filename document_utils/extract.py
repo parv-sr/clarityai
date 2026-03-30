@@ -2,6 +2,8 @@ from langchain_core.documents import Document
 from langchain_core.runnables import chain
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.tools import tool, ToolRuntime
+from langchain.messages import HumanMessage
 from vector_utils.vectoriser import Vectoriser
 from db.vector_store import clarityVectorStore
 from typing import List, Dict
@@ -65,7 +67,26 @@ class ResourcePipeline:
         print(f"Inserted {len(points)} chunks into collection")
         return None
     
+    @tool("retreive context", description="Retreives embeddings from the vector store")
+    def retreive_context(self, query: str, runtime: ToolRuntime) -> List[Document]:
+        """
+        Tool for retreiving the context
+        """
+        pass
 
+    @tool
+    def get_last_user_message(runtime: ToolRuntime) -> str:
+        """
+        Get the last message from the user.
+        """
+        messages = runtime.state["messages"]
+        for message in reversed(messages):
+            if isinstance(message, HumanMessage):
+                return message.content
+        
+        return "No user message found"
+
+    
     @chain
     def retreive_embeddings(self, query: str) -> List[Document]:
         return 
