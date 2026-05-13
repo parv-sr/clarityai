@@ -1,6 +1,8 @@
 from langchain.tools import tool, ToolRuntime
 from langchain.messages import HumanMessage
 from langgraph.types import Command
+from typing import List
+import psycopg2
 
 
 class LLMTools:
@@ -22,3 +24,11 @@ class LLMTools:
     @tool
     def set_user_name(self, new_name: str) -> Command:
         pass
+
+    @tool
+    def get_course_list(self) -> List[str]:
+        """
+        Get the full course list. No args required.
+        """
+        query = "SELECT course FROM public.course;"
+

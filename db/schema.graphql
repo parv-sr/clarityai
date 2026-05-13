@@ -1,0 +1,9 @@
+schema {
+    query: Query
+}
+
+type Course {
+    c_id: ID!
+    cname: String!
+    description: String!
+}
