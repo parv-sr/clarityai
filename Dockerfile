@@ -7,7 +7,9 @@ WORKDIR /clarityai
 COPY pyproject.toml ./
 COPY uv.lock ./
 
-RUN uv sync
+ENV UV_PROJECT_ENVIRONMENT=/usr/local
+
+RUN uv sync 
 
 COPY . .
 
